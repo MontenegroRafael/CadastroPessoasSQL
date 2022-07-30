@@ -2,12 +2,13 @@
 using System.Collections.Generic;
 using System.Data;
 using System.Data.SqlClient;
-
+using System.Linq;
 
 namespace Cadastro_de_Pessoas
 {
     public class Program
     {
+
         public static void Main(string[] args)
         {
             string connection = @"Data Source=ITELABD04\SQLEXPRESS;Initial Catalog=Cadastro de Pessoas;Integrated Security=True;";
@@ -82,6 +83,8 @@ namespace Cadastro_de_Pessoas
                                                              resultado.GetString(resultado.GetOrdinal("Rg")),
                                                              resultado.GetDateTime(resultado.GetOrdinal("DatadeNascimento")),
                                                              resultado.GetString(resultado.GetOrdinal("Naturalidade"))));
+                                //listaCadastro.Add(resultado.GetString(resultado.GetOrdinal("Ddd")),
+                                //                               resultado.GetString(resultado.GetOrdinal("Numero")));
                             }
                         }
                         Console.WriteLine("========Listagem========");
@@ -270,8 +273,29 @@ namespace Cadastro_de_Pessoas
                             command.Connection.Open();
 
                             Console.WriteLine("Digite o Id da Pessoa para Cadastro");
-                            int resp = Convert.ToInt32(Console.ReadLine());
-                            command.Parameters.AddWithValue("@idPessoa", resp);
+                            int termo = Convert.ToInt32(Console.ReadLine());
+
+                            //----
+                            //int termo == resp;
+                            Pessoa pessoaEncontrada;
+                            List<Pessoa> pessoasEncontradas = EncontrarPessoa(termo);
+                            while (pessoasEncontradas.Count() > 1 || pessoasEncontradas.Count == 0)
+                            {
+                                if (pessoasEncontradas.Count() == 0)
+                                {
+                                    Console.WriteLine("Nenhuma pessoa encontrada. Insira um termo válido");
+                                    termo = Convert.ToInt32(Console.ReadLine());
+                                    pessoasEncontradas = EncontrarPessoa(termo);
+                                }
+                                else if (pessoasEncontradas.Count() > 1)
+                                {
+                                    Console.WriteLine("Mais de uma pessoa encontrada. Insira um termo mais preciso:");
+                                    termo = Convert.ToInt32(Console.ReadLine());
+                                    pessoasEncontradas = EncontrarPessoa(termo);
+                                }
+                            }
+                            //-----
+                            command.Parameters.AddWithValue("@idPessoa", termo);
 
                             Console.WriteLine("DDD:");
                             string ddd1 = Console.ReadLine();
@@ -294,6 +318,34 @@ namespace Cadastro_de_Pessoas
 
                 }
             }  
+        }
+        static List<Pessoa> EncontrarPessoa(int termo)
+        {
+            string connection = @"Data Source=ITELABD04\SQLEXPRESS;Initial Catalog=Cadastro de Pessoas;Integrated Security=True;";
+            List<Pessoa> pessoas2 = new List<Pessoa>();
+            SqlDataReader resultado;
+            try
+            {
+                var query = @"SELECT Id FROM Pessoa
+                                      WHERE Id like CONCAT('%',@termo,'%')";
+                using (var sql = new SqlConnection(connection))
+                {
+                    SqlCommand command = new SqlCommand(query, sql);
+                    command.Parameters.AddWithValue("@termo", termo);
+                    command.Connection.Open();
+                    resultado = command.ExecuteReader();
+
+                    while (resultado.Read())
+                    {
+                        pessoas2.Add(new Pessoa(resultado.GetInt32(resultado.GetOrdinal("Id"))));
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine("Erro: " + ex.Message);
+            }
+            return pessoas2;
         }
     }
 }

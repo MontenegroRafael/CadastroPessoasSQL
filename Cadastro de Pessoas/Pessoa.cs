@@ -42,5 +42,10 @@ namespace Cadastro_de_Pessoas
             Id = id;
             Nome = nome;
         }
+
+        public Pessoa(int id)
+        {
+            Id = id;
+        }
     }
 }
