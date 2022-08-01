@@ -11,15 +11,17 @@ namespace Cadastro_de_Pessoas
 
         public static void Main(string[] args)
         {
-            string connection = @"Data Source=ITELABD04\SQLEXPRESS;Initial Catalog=Cadastro de Pessoas;Integrated Security=True;";
-            List<Pessoa> listaCadastro = new List<Pessoa>();
-
+            //string connection = @"Data Source=ITELABD04\SQLEXPRESS;Initial Catalog=Cadastro de Pessoas;Integrated Security=True;";
+            string connection = @"Data Source=DESKTOP-IR1AB95;Initial Catalog=cadastropessoas;Integrated Security=True;";
+           
+            Console.WriteLine("============ Cadastro de Pessoas ============");
             Menu.MostarMenu();
-
+            Console.Write("Digite o que deseja fazer: ");
             int opcao = Convert.ToInt32(Console.ReadLine());
 
             while (opcao != 0)
             {
+                // Cadastrar
                 if (opcao == 1)
                 {
                     Console.WriteLine("Nome:");
@@ -59,86 +61,23 @@ namespace Cadastro_de_Pessoas
                         Console.WriteLine("Erro: " + ex.Message);
                     }
                     Menu.MostarMenu();
+                    Console.Write("Digite o que deseja fazer: ");
                     opcao = Convert.ToInt32(Console.ReadLine());
 
                 }
+                // Mostrar Cadastros
                 else if (opcao == 2)
                 {
-                    try
-                    {
-                        SqlDataReader resultado;
-                        var query = "SELECT Id, Nome, Cpf, Rg, DatadeNascimento, Naturalidade FROM Pessoa ";
-
-                        using (var sql = new SqlConnection(connection))
-                        {
-                            SqlCommand command = new SqlCommand(query, sql);
-                            command.Connection.Open();
-                            resultado = command.ExecuteReader();
-
-                            while (resultado.Read())
-                            {
-                                listaCadastro.Add(new Pessoa(resultado.GetInt32(resultado.GetOrdinal("Id")),
-                                                             resultado.GetString(resultado.GetOrdinal("Nome")),
-                                                             resultado.GetString(resultado.GetOrdinal("Cpf")),
-                                                             resultado.GetString(resultado.GetOrdinal("Rg")),
-                                                             resultado.GetDateTime(resultado.GetOrdinal("DatadeNascimento")),
-                                                             resultado.GetString(resultado.GetOrdinal("Naturalidade"))));
-                                //listaCadastro.Add(resultado.GetString(resultado.GetOrdinal("Ddd")),
-                                //                               resultado.GetString(resultado.GetOrdinal("Numero")));
-                            }
-                        }
-                        Console.WriteLine("========Listagem========");
-                        foreach (Pessoa p in listaCadastro)
-                        {
-                            Console.WriteLine("========Inicio========");
-                            Console.WriteLine("Nome: " + p.Nome);
-                            Console.WriteLine("CPF: " + p.Cpf);
-                            Console.WriteLine("Rg: " + p.Rg);
-                            Console.WriteLine("Data de Nascimento: " + p.DatadeNascimento);
-                            Console.WriteLine("Naturalidade: " + p.Naturalidade);
-                            Console.WriteLine("========Fim========");
-                        }
-                    }
-                    catch (Exception ex)
-                    {
-                        Console.WriteLine("Erro: " + ex.Message);
-                    }
+                    Menu.Mostarcadastros();
                     Menu.MostarMenu();
                     opcao = Convert.ToInt32(Console.ReadLine());
                 }
+                // Atualizar Cadastro
                 else if (opcao == 3)
                 {
                     Console.WriteLine("Qual cadastro deseja Atualizar? ");
-                    try
-                    {
-                        SqlDataReader resultado;
-                        var query = "SELECT Id, Nome FROM Pessoa ";
+                    Menu.Mostarcadastros();
 
-                        using (var sql = new SqlConnection(connection))
-                        {
-                            SqlCommand command = new SqlCommand(query, sql);
-                            command.Connection.Open();
-                            resultado = command.ExecuteReader();
-
-                            while (resultado.Read())
-                            {
-                                listaCadastro.Add(new Pessoa(resultado.GetInt32(resultado.GetOrdinal("Id")),
-                                                             resultado.GetString(resultado.GetOrdinal("Nome"))));
-                            }
-                        }
-                        Console.WriteLine("========Listagem========");
-                        foreach (Pessoa p in listaCadastro)
-                        {
-                            Console.WriteLine("---------------------------");
-                            Console.WriteLine("Id: " + p.Id);
-                            Console.WriteLine("Nome: " + p.Nome);
-                            
-                        } 
-                    }
-                    catch (Exception ex)
-                    {
-                        Console.WriteLine("Erro: " + ex.Message);
-                    }
                     try
                     {
                         var query = "UPDATE Pessoa SET Nome = @nome Where Id = @id";
@@ -170,44 +109,19 @@ namespace Cadastro_de_Pessoas
                         Console.WriteLine("Erro: " + ex.Message);
                     }
                     Menu.MostarMenu();
+                    Console.Write("Digite o que deseja fazer: ");
                     opcao = Convert.ToInt32(Console.ReadLine());
                 }
+                //  Deletar Cadastro
                 else if (opcao == 4)
                 {
                     Console.WriteLine("Qual Cadastro deseja DELETAR ??");
 
-                    try
-                    {
-                        SqlDataReader resultado;
-                        var query = "SELECT Id, Nome FROM Pessoa ";
-
-                        using (var sql = new SqlConnection(connection))
-                        {
-                            SqlCommand command = new SqlCommand(query, sql);
-                            command.Connection.Open();
-                            resultado = command.ExecuteReader();
-                            while (resultado.Read())
-                            {
-                                listaCadastro.Add(new Pessoa(resultado.GetInt32(resultado.GetOrdinal("Id")),
-                                                             resultado.GetString(resultado.GetOrdinal("Nome"))));
-                            }
-                        }
-                        Console.WriteLine("========Listagem========");
-                        foreach (Pessoa p in listaCadastro)
-                        {
-                            Console.WriteLine("---------------------------");
-                            Console.WriteLine("Id: " + p.Id);
-                            Console.WriteLine("Nome: " + p.Nome);
-                        }
-                    }
-                    catch (Exception ex)
-                    {
-                        Console.WriteLine("Erro: " + ex.Message);
-                    }
+                    Menu.Mostarcadastros();
                     
                     try
                     { 
-                        var query = "DELETE from Pessoa WHERE Id = @Id";
+                        var query = "DELETE from Pessoa WHERE Id = @Id" + "DELETE from Telefone WHERE IdPessoa = @Id";
                         using (var sql = new SqlConnection(connection))
                         {
                             SqlCommand command = new SqlCommand(query, sql);
@@ -227,39 +141,14 @@ namespace Cadastro_de_Pessoas
                     }
 
                     Menu.MostarMenu();
+                    Console.Write("Digite o que deseja fazer: ");
                     opcao = Convert.ToInt32(Console.ReadLine());
                 }
+                // Cadastrar Telefone
                 else if (opcao == 5) 
                 {
-                    
-                    try
-                    {
-                        SqlDataReader resultado;
-                        var query = "SELECT Id, Nome FROM Pessoa ";
 
-                        using (var sql = new SqlConnection(connection))
-                        {
-                            SqlCommand command = new SqlCommand(query, sql);
-                            command.Connection.Open();
-                            resultado = command.ExecuteReader();
-                            while (resultado.Read())
-                            {
-                                listaCadastro.Add(new Pessoa(resultado.GetInt32(resultado.GetOrdinal("Id")),
-                                                             resultado.GetString(resultado.GetOrdinal("Nome"))));
-                            }
-                        }
-                        Console.WriteLine("========Listagem========");
-                        foreach (Pessoa p in listaCadastro)
-                        {
-                            Console.WriteLine("---------------------------");
-                            Console.WriteLine("Id: " + p.Id);
-                            Console.WriteLine("Nome: " + p.Nome);
-                        }
-                    }
-                    catch (Exception ex)
-                    {
-                        Console.WriteLine("Erro: " + ex.Message);
-                    }
+                    Menu.Mostarcadastros();
 
                     try
                     {
@@ -314,14 +203,72 @@ namespace Cadastro_de_Pessoas
                         Console.WriteLine("Erro: " + ex.Message);
                     }
                     Menu.MostarMenu();
+                    Console.Write("Digite o que deseja fazer: ");
                     opcao = Convert.ToInt32(Console.ReadLine());
 
+                }
+                // Deletar Telefone
+                else if (opcao == 6)
+                {
+                    Console.WriteLine("Qual Cadastro deseja DELETAR ??");
+
+                    Menu.Mostarcadastros();
+
+                    try
+                    {
+                        var query = "DELETE from Telefone WHERE IdPessoa = @Id";
+                        using (var sql = new SqlConnection(connection))
+                        {
+                            SqlCommand command = new SqlCommand(query, sql);
+                            command.Connection.Open();
+
+                            Console.WriteLine("---------------------------");
+                            Console.WriteLine("Digite o Id para DELETAR: ");
+                            int resp = Convert.ToInt32(Console.ReadLine());
+                            command.Parameters.AddWithValue("@id", resp);
+
+                            command.ExecuteNonQuery();
+                        }
+                    }
+                    catch (Exception ex)
+                    {
+                        Console.WriteLine("Erro: " + ex.Message);
+                    }
+                    Menu.MostarMenu();
+                    Console.Write("Digite o que deseja fazer: ");
+                    opcao = Convert.ToInt32(Console.ReadLine());
+                }
+                // Mostar Telefones
+                else if (opcao == 7)
+                {
+
+                    Menu.MostarMenu();
+                    Console.Write("Digite o que deseja fazer: ");
+                    opcao = Convert.ToInt32(Console.ReadLine());
+                }
+                // Mostrar Telefone/Nome
+                else if (opcao == 8)
+                {
+
+                    Menu.MostarMenu();
+                    Console.Write("Digite o que deseja fazer: ");
+                    opcao = Convert.ToInt32(Console.ReadLine());
+                }
+                // Opção Invalida
+                else
+                {
+                    Console.WriteLine("______________________________________ ");
+                    Console.WriteLine("Opção Invalida!!! - Digite Novamente.: ");
+                    Console.WriteLine("______________________________________ ");
+                    Menu.MostarMenu();
+                    Console.Write("Digite o que deseja fazer: ");
+                    opcao = Convert.ToInt32(Console.ReadLine());
                 }
             }  
         }
         static List<Pessoa> EncontrarPessoa(int termo)
         {
-            string connection = @"Data Source=ITELABD04\SQLEXPRESS;Initial Catalog=Cadastro de Pessoas;Integrated Security=True;";
+            string connection = @"Data Source=DESKTOP-IR1AB95;Initial Catalog=cadastropessoas;Integrated Security=True;";
             List<Pessoa> pessoas2 = new List<Pessoa>();
             SqlDataReader resultado;
             try
