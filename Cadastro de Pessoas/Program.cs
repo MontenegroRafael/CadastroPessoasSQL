@@ -13,8 +13,7 @@ namespace Cadastro_de_Pessoas
         {
             string connection = @"Data Source=ITELABD04\SQLEXPRESS;Initial Catalog=Cadastro de Pessoas;Integrated Security=True;";
             //string connection = @"Data Source=DESKTOP-IR1AB95;Initial Catalog=cadastropessoas;Integrated Security=True;";
-           
-            Console.WriteLine("============ Cadastro de Pessoas ============");
+            Console.WriteLine("|======================== Cadastro de Pessoas =========================|");
             Menu.MostarMenu();
             Console.Write("Digite o que deseja fazer: ");
             int opcao = Convert.ToInt32(Console.ReadLine());
@@ -70,6 +69,7 @@ namespace Cadastro_de_Pessoas
                 {
                     Menu.Mostarcadastros();
                     Menu.MostarMenu();
+                    Console.Write("Digite o que deseja fazer: ");
                     opcao = Convert.ToInt32(Console.ReadLine());
                 }
                 // Atualizar Cadastro
@@ -147,7 +147,6 @@ namespace Cadastro_de_Pessoas
                 // Cadastrar Telefone
                 else if (opcao == 5) 
                 {
-
                     Menu.Mostarcadastros();
 
                     try
@@ -165,8 +164,6 @@ namespace Cadastro_de_Pessoas
                             int termo = Convert.ToInt32(Console.ReadLine());
 
                             //----
-                            //int termo == resp;
-                            Pessoa pessoaEncontrada;
                             List<Pessoa> pessoasEncontradas = EncontrarPessoa(termo);
                             while (pessoasEncontradas.Count() > 1 || pessoasEncontradas.Count == 0)
                             {
@@ -241,7 +238,7 @@ namespace Cadastro_de_Pessoas
                 // Mostar Telefones
                 else if (opcao == 7)
                 {
-
+                    Menu.MostrarTelefones();
                     Menu.MostarMenu();
                     Console.Write("Digite o que deseja fazer: ");
                     opcao = Convert.ToInt32(Console.ReadLine());
@@ -268,7 +265,8 @@ namespace Cadastro_de_Pessoas
         }
         static List<Pessoa> EncontrarPessoa(int termo)
         {
-            string connection = @"Data Source=DESKTOP-IR1AB95;Initial Catalog=cadastropessoas;Integrated Security=True;";
+            string connection = @"Data Source=ITELABD04\SQLEXPRESS;Initial Catalog=Cadastro de Pessoas;Integrated Security=True;";
+            //string connection = @"Data Source=DESKTOP-IR1AB95;Initial Catalog=cadastropessoas;Integrated Security=True;";
             List<Pessoa> pessoas2 = new List<Pessoa>();
             SqlDataReader resultado;
             try
