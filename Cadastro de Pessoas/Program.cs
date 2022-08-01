@@ -11,8 +11,8 @@ namespace Cadastro_de_Pessoas
 
         public static void Main(string[] args)
         {
-            //string connection = @"Data Source=ITELABD04\SQLEXPRESS;Initial Catalog=Cadastro de Pessoas;Integrated Security=True;";
-            string connection = @"Data Source=DESKTOP-IR1AB95;Initial Catalog=cadastropessoas;Integrated Security=True;";
+            string connection = @"Data Source=ITELABD04\SQLEXPRESS;Initial Catalog=Cadastro de Pessoas;Integrated Security=True;";
+            //string connection = @"Data Source=DESKTOP-IR1AB95;Initial Catalog=cadastropessoas;Integrated Security=True;";
            
             Console.WriteLine("============ Cadastro de Pessoas ============");
             Menu.MostarMenu();
