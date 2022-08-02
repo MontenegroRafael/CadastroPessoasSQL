@@ -246,6 +246,11 @@ namespace Cadastro_de_Pessoas
                 // Mostrar Telefone/Nome
                 else if (opcao == 8)
                 {
+                    Console.WriteLine("Mostrar Telefone/Nome");
+
+
+                    Menu.MostrarNumerosPorNome();
+
 
                     Menu.MostarMenu();
                     Console.Write("Digite o que deseja fazer: ");
