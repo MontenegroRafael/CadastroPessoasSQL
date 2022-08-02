@@ -284,6 +284,30 @@ namespace Cadastro_de_Pessoas
                     opcao = Convert.ToInt32(Console.ReadLine());
 
                 }
+                else if (opcao == 10)
+                {
+                    List<Telefone> listaCadastro1 = new List<Telefone>();
+                    SqlDataReader resultado;
+                    var query = "SELECT t.Id FROM Telefone t WHERE p.Nome = @nome";
+
+                    using (var sql = new SqlConnection(connection))
+                    {
+                        SqlCommand command = new SqlCommand(query, sql);
+                        command.Connection.Open();
+                        resultado = command.ExecuteReader();
+
+                        while (resultado.Read())
+                        {
+                            listaCadastro1.Add(new Telefone(resultado.GetInt32(resultado.GetOrdinal("Id"))));
+                        }
+                    }
+                    int quantnumeros = listaCadastro1.Count;
+                    Console.WriteLine($"{quantnumeros} - Telefones Cadastrados");
+
+                    Menu.MostarMenu();
+                    Console.Write(" Digite o que deseja fazer: ");
+                    opcao = Convert.ToInt32(Console.ReadLine());
+                }
                 // Opção Invalida
                 else
                 {
