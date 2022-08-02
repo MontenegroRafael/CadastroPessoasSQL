@@ -88,8 +88,8 @@ namespace Cadastro_de_Pessoas
                             SqlCommand command = new SqlCommand(query, sql);
                             command.Connection.Open();
 
-                            Console.WriteLine("---------------------------");
-                            Console.WriteLine("Digite o Id que deseja Alterar: ");
+                            Console.WriteLine("|_____________________________________________________________________|");
+                            Console.Write("Digite o Id que deseja Alterar: ");
                             int resp = Convert.ToInt32(Console.ReadLine());
                             command.Parameters.AddWithValue("@id", resp);
 
@@ -112,7 +112,7 @@ namespace Cadastro_de_Pessoas
                     Console.Write("Digite o que deseja fazer: ");
                     opcao = Convert.ToInt32(Console.ReadLine());
                 }
-                //  Deletar Cadastro
+                //  Deletar Cadastro Completo
                 else if (opcao == 4)
                 {
                     Console.WriteLine("Qual Cadastro deseja DELETAR ??");
@@ -120,15 +120,15 @@ namespace Cadastro_de_Pessoas
                     Menu.Mostarcadastros();
                     
                     try
-                    { 
-                        var query = "DELETE from Pessoa WHERE Id = @Id" + "DELETE from Telefone WHERE IdPessoa = @Id";
+                    {
+                        var query = "DELETE from Telefone WHERE IdPessoa = @Id DELETE from Pessoa WHERE Id = @Id";
                         using (var sql = new SqlConnection(connection))
                         {
                             SqlCommand command = new SqlCommand(query, sql);
                             command.Connection.Open();
 
-                            Console.WriteLine("---------------------------");
-                            Console.WriteLine("Digite o Id para DELETAR: ");
+                            Console.WriteLine("|_____________________________________________________________________|");
+                            Console.Write(" Digite o Id para DELETAR: ");
                             int resp = Convert.ToInt32(Console.ReadLine());
                             command.Parameters.AddWithValue("@id", resp);
 
@@ -140,8 +140,10 @@ namespace Cadastro_de_Pessoas
                         Console.WriteLine("Erro: " + ex.Message);
                     }
 
+                    Console.WriteLine(" CADASTRO DELETADO!!!");
+
                     Menu.MostarMenu();
-                    Console.Write("Digite o que deseja fazer: ");
+                    Console.Write(" Digite o que deseja fazer: ");
                     opcao = Convert.ToInt32(Console.ReadLine());
                 }
                 // Cadastrar Telefone
@@ -160,7 +162,7 @@ namespace Cadastro_de_Pessoas
                             SqlCommand command = new SqlCommand(query, sql);
                             command.Connection.Open();
 
-                            Console.WriteLine("Digite o Id da Pessoa para Cadastro");
+                            Console.WriteLine(" Digite o Id da Pessoa para Cadastro");
                             int termo = Convert.ToInt32(Console.ReadLine());
 
                             //----
@@ -169,13 +171,13 @@ namespace Cadastro_de_Pessoas
                             {
                                 if (pessoasEncontradas.Count() == 0)
                                 {
-                                    Console.WriteLine("Nenhuma pessoa encontrada. Insira um termo válido");
+                                    Console.WriteLine(" Nenhuma pessoa encontrada. Insira um termo válido");
                                     termo = Convert.ToInt32(Console.ReadLine());
                                     pessoasEncontradas = EncontrarPessoa(termo);
                                 }
                                 else if (pessoasEncontradas.Count() > 1)
                                 {
-                                    Console.WriteLine("Mais de uma pessoa encontrada. Insira um termo mais preciso:");
+                                    Console.WriteLine(" Mais de uma pessoa encontrada. Insira um termo mais preciso:");
                                     termo = Convert.ToInt32(Console.ReadLine());
                                     pessoasEncontradas = EncontrarPessoa(termo);
                                 }
@@ -183,31 +185,31 @@ namespace Cadastro_de_Pessoas
                             //-----
                             command.Parameters.AddWithValue("@idPessoa", termo);
 
-                            Console.WriteLine("DDD:");
+                            Console.WriteLine(" DDD: ");
                             string ddd1 = Console.ReadLine();
                             command.Parameters.AddWithValue("@ddd", ddd1);
 
-                            Console.WriteLine("Telefone: ");
+                            Console.WriteLine(" Telefone: ");
                             string numero1 = Console.ReadLine();
                             command.Parameters.AddWithValue("@numero", numero1);
 
                             command.ExecuteNonQuery();
                         }
-                        Console.WriteLine("Cadastrado com Sucesso");
+                        Console.WriteLine(" Cadastrado com Sucesso");
                     }
                     catch (Exception ex)
                     {
-                        Console.WriteLine("Erro: " + ex.Message);
+                        Console.WriteLine(" Erro: " + ex.Message);
                     }
                     Menu.MostarMenu();
-                    Console.Write("Digite o que deseja fazer: ");
+                    Console.Write(" Digite o que deseja fazer: ");
                     opcao = Convert.ToInt32(Console.ReadLine());
 
                 }
                 // Deletar Telefone
                 else if (opcao == 6)
                 {
-                    Console.WriteLine("Qual Cadastro deseja DELETAR ??");
+                    Console.WriteLine(" Qual Cadastro deseja DELETAR ??");
 
                     Menu.Mostarcadastros();
 
@@ -219,8 +221,8 @@ namespace Cadastro_de_Pessoas
                             SqlCommand command = new SqlCommand(query, sql);
                             command.Connection.Open();
 
-                            Console.WriteLine("---------------------------");
-                            Console.WriteLine("Digite o Id para DELETAR: ");
+                            Console.WriteLine("|_____________________________________________________________________|");
+                            Console.Write(" Digite o Id para DELETAR: ");
                             int resp = Convert.ToInt32(Console.ReadLine());
                             command.Parameters.AddWithValue("@id", resp);
 
@@ -229,10 +231,10 @@ namespace Cadastro_de_Pessoas
                     }
                     catch (Exception ex)
                     {
-                        Console.WriteLine("Erro: " + ex.Message);
+                        Console.WriteLine(" Erro: " + ex.Message);
                     }
                     Menu.MostarMenu();
-                    Console.Write("Digite o que deseja fazer: ");
+                    Console.Write(" Digite o que deseja fazer: ");
                     opcao = Convert.ToInt32(Console.ReadLine());
                 }
                 // Mostar Telefones
@@ -240,30 +242,56 @@ namespace Cadastro_de_Pessoas
                 {
                     Menu.MostrarTelefones();
                     Menu.MostarMenu();
-                    Console.Write("Digite o que deseja fazer: ");
+                    Console.Write(" Digite o que deseja fazer: ");
                     opcao = Convert.ToInt32(Console.ReadLine());
                 }
                 // Mostrar Telefone/Nome
                 else if (opcao == 8)
                 {
-                    Console.WriteLine("Mostrar Telefone/Nome");
+                    Console.WriteLine(" Mostrar Telefone/Nome");
 
 
                     Menu.MostrarNumerosPorNome();
 
 
                     Menu.MostarMenu();
-                    Console.Write("Digite o que deseja fazer: ");
+                    Console.Write(" Digite o que deseja fazer: ");
                     opcao = Convert.ToInt32(Console.ReadLine());
+                }
+                // Quantidade de Telefones
+                else if (opcao == 9)
+                {
+                    List<Telefone> listaCadastro1 = new List<Telefone>();
+                    SqlDataReader resultado;
+                    var query = "SELECT t.Id FROM Telefone t ";
+
+                    using (var sql = new SqlConnection(connection))
+                    {
+                        SqlCommand command = new SqlCommand(query, sql);
+                        command.Connection.Open();
+                        resultado = command.ExecuteReader();
+
+                        while (resultado.Read())
+                        {
+                            listaCadastro1.Add(new Telefone(resultado.GetInt32(resultado.GetOrdinal("Id"))));
+                        }
+                    }
+                    int quantnumeros = listaCadastro1.Count;
+                    Console.WriteLine($"{quantnumeros} - Telefones Cadastrados");
+
+                    Menu.MostarMenu();
+                    Console.Write(" Digite o que deseja fazer: ");
+                    opcao = Convert.ToInt32(Console.ReadLine());
+
                 }
                 // Opção Invalida
                 else
                 {
-                    Console.WriteLine("______________________________________ ");
-                    Console.WriteLine("Opção Invalida!!! - Digite Novamente.: ");
-                    Console.WriteLine("______________________________________ ");
+                    Console.WriteLine("|________________________________________ ");
+                    Console.WriteLine(" Opção Invalida!!! - Digite Novamente.: ");
+                    Console.WriteLine("|________________________________________ ");
                     Menu.MostarMenu();
-                    Console.Write("Digite o que deseja fazer: ");
+                    Console.Write( " Digite o que deseja fazer: ");
                     opcao = Convert.ToInt32(Console.ReadLine());
                 }
             }  
@@ -293,7 +321,7 @@ namespace Cadastro_de_Pessoas
             }
             catch (Exception ex)
             {
-                Console.WriteLine("Erro: " + ex.Message);
+                Console.WriteLine(" Erro: " + ex.Message);
             }
             return pessoas2;
         }

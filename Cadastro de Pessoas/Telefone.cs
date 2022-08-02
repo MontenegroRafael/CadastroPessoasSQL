@@ -26,5 +26,10 @@ namespace Cadastro_de_Pessoas
             Ddd = ddd;
             Numero = numero;
         }
+
+        public Telefone(int id)
+        {
+            Id = id;
+        }
     }
 }

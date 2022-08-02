@@ -12,15 +12,17 @@ namespace Cadastro_de_Pessoas
         {
             
             Console.WriteLine("|******************************** Menu ********************************|");
-            Console.WriteLine("[1] - Cadastrar");
-            Console.WriteLine("[2] - Mostrar Cadastros");
-            Console.WriteLine("[3] - Atualizar Cadastro");
-            Console.WriteLine("[4] - Deletar Cadastro");
-            Console.WriteLine("[5] - Cadastrar Telefone");
-            Console.WriteLine("[6] - Deletar Telefone");
-            Console.WriteLine("[7] - Mostar Telefones");
-            Console.WriteLine("[8] - Mostrar Telefone/Nome");
-            Console.WriteLine("[0] - Sair");
+            Console.WriteLine(" [1]  - Cadastrar");
+            Console.WriteLine(" [2]  - Mostrar Cadastros");
+            Console.WriteLine(" [3]  - Atualizar Cadastro");
+            Console.WriteLine(" [4]  - Deletar Cadastro Completo");
+            Console.WriteLine(" [5]  - Cadastrar Telefone");
+            Console.WriteLine(" [6]  - Deletar Telefone");
+            Console.WriteLine(" [7]  - Mostar Telefones");
+            Console.WriteLine(" [8]  - Mostrar Telefone/Nome");
+            Console.WriteLine(" [9]  - Quantidade de Telefones");
+            Console.WriteLine(" [10] - Quantidade de Telefones/Nome");
+            Console.WriteLine(" [0]  - Sair");
             Console.WriteLine("|_____________________________________________________________________|");
         }
         public static void Mostarcadastros()
@@ -129,7 +131,6 @@ namespace Cadastro_de_Pessoas
             List<Telefone> listaCadastro1 = new List<Telefone>();
             try
             {
-                //var query = "SELECT p.Id = @id, p.Nome = @nome, t.Ddd = @ddd, t.Numero = @numero FROM Pessoa p, Telefone t ON p.Id = t.IdPessoa WHERE p.Nome = @nome";
                 var query = "SELECT * FROM Pessoa p LEFT JOIN Telefone t ON p.Id = t.IdPessoa WHERE p.Nome = @nome";
                 using (var sql = new SqlConnection(connection))
                 {
@@ -141,14 +142,6 @@ namespace Cadastro_de_Pessoas
                     Console.WriteLine("Digite o nome para pesquisar:");
                     string nome = Console.ReadLine();
                     command.Parameters.AddWithValue("@nome", nome);
-
-                    command.ExecuteNonQuery();
-                }
-
-                using (var sql = new SqlConnection(connection))
-                {
-                    SqlCommand command = new SqlCommand(query, sql);
-                    command.Connection.Open();
                     resultado = command.ExecuteReader();
 
                     while (resultado.Read())
@@ -159,26 +152,18 @@ namespace Cadastro_de_Pessoas
                         listaCadastro1.Add(new Telefone(resultado.SafeGetString(resultado.GetOrdinal("Ddd")), // Metodo Safe uzado para verificar se o valor e nulo
                                                         (resultado.SafeGetString(resultado.GetOrdinal("Numero")))));
                     }
-                }
-                Console.WriteLine("|============================== Listagem ==============================|");
-                for (int i = 0; i < listaCadastro.Count; i++)
-                {
-                    //Console.WriteLine("________________________________");
-                    Console.WriteLine($"Id:{ listaCadastro[i].Id} - {listaCadastro[i].Nome} - Tel: ({listaCadastro1[i].Ddd})-{listaCadastro1[i].Numero}");
-                    //Console.WriteLine("Nome: " + );
-                    //Console.WriteLine("Ddd: " + );
-                    //Console.WriteLine("Numero: " + );
-                    //Console.WriteLine("________________________________");
-
-                }
-
+                    Console.WriteLine("|============================== Listagem ==============================|");
+                    for (int i = 0; i < listaCadastro.Count; i++)
+                    {
+                        Console.WriteLine($"Id:{ listaCadastro[i].Id} - {listaCadastro[i].Nome} - Tel: ({listaCadastro1[i].Ddd})-{listaCadastro1[i].Numero}");
+                    }
+                }   
             }
             catch (Exception ex)
             {
                 Console.WriteLine("Erro: " + ex.Message);
             }
         }
-        
     }
     public static class Extensions // extensão criada para quando o valor resgatado do banco for NULL então fica vazio (Empty)
     {
