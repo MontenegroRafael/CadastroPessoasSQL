@@ -216,7 +216,8 @@ namespace Cadastro_de_Pessoas
                             Console.WriteLine($"{listaCadastro[i].Nome} tem {cont} telefones cadastrados.");
                         }
                         
-                        //Console.WriteLine(listaCadastro[i].Nome);
+                        //Console.WriteLine(listaCadastro[i].Nome); Testar
+
                     }
                     
                 }
