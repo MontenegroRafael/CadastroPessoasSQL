@@ -1,4 +1,8 @@
-﻿using System;
+﻿/* - “Digno és tu, Senhor e Deus nosso, de receber a glória, a honra e o poder, 
+      pois foste tu que criaste o universo; por tua vontade, ele não era e foi criado." 
+   - Apocalipse 4:11 .*/
+
+using System;
 using System.Collections.Generic;
 using System.Text;
 using System.Data.SqlClient;
@@ -27,8 +31,8 @@ namespace Cadastro_de_Pessoas
         }
         public static void Mostarcadastros()
         {
-            //string connection = @"Data Source=ITELABD04\SQLEXPRESS;Initial Catalog=Cadastro de Pessoas;Integrated Security=True;";
-            string connection = @"Data Source=DESKTOP-IR1AB95;Initial Catalog=cadastropessoas;Integrated Security=True;";
+            string connection = @"Data Source=ITELABD04\SQLEXPRESS;Initial Catalog=Cadastro de Pessoas;Integrated Security=True;";
+            //string connection = @"Data Source=DESKTOP-IR1AB95;Initial Catalog=cadastropessoas;Integrated Security=True;";
             List<Pessoa> listaCadastro = new List<Pessoa>();
             List<Telefone> listaCadastro1 = new List<Telefone>();
             try
@@ -60,14 +64,14 @@ namespace Cadastro_de_Pessoas
                 for (int i = 0; i < listaCadastro.Count; i++)
                 {
                     Console.WriteLine("|----------------------------------------------------------------------|");
-                    Console.WriteLine("Id: " + listaCadastro[i].Id);
-                    Console.WriteLine("Nome: " + listaCadastro[i].Nome);
-                    Console.WriteLine("CPF: " + listaCadastro[i].Cpf);
-                    Console.WriteLine("Rg: " + listaCadastro[i].Rg);
-                    Console.WriteLine("Data de Nascimento: " + listaCadastro[i].DatadeNascimento);
-                    Console.WriteLine("Naturalidade: " + listaCadastro[i].Naturalidade);
-                    Console.WriteLine("Ddd: " + listaCadastro1[i].Ddd);
-                    Console.WriteLine("Numero: " + listaCadastro1[i].Numero);
+                    Console.WriteLine(" Id: " + listaCadastro[i].Id);
+                    Console.WriteLine(" Nome: " + listaCadastro[i].Nome);
+                    Console.WriteLine(" CPF: " + listaCadastro[i].Cpf);
+                    Console.WriteLine(" Rg: " + listaCadastro[i].Rg);
+                    Console.WriteLine(" Data de Nascimento: " + listaCadastro[i].DatadeNascimento);
+                    Console.WriteLine(" Naturalidade: " + listaCadastro[i].Naturalidade);
+                    Console.WriteLine(" Ddd: " + listaCadastro1[i].Ddd);
+                    Console.WriteLine(" Numero: " + listaCadastro1[i].Numero);
                     Console.WriteLine("|----------------------------------------------------------------------|");
 
                 }
@@ -80,8 +84,8 @@ namespace Cadastro_de_Pessoas
         }
         public static void MostrarTelefones()
         {
-            //string connection = @"Data Source=ITELABD04\SQLEXPRESS;Initial Catalog=Cadastro de Pessoas;Integrated Security=True;";
-            string connection = @"Data Source=DESKTOP-IR1AB95;Initial Catalog=cadastropessoas;Integrated Security=True;";
+            string connection = @"Data Source=ITELABD04\SQLEXPRESS;Initial Catalog=Cadastro de Pessoas;Integrated Security=True;";
+            //string connection = @"Data Source=DESKTOP-IR1AB95;Initial Catalog=cadastropessoas;Integrated Security=True;";
             List<Pessoa> listaCadastro = new List<Pessoa>();
             List<Telefone> listaCadastro1 = new List<Telefone>();
             try
@@ -89,8 +93,7 @@ namespace Cadastro_de_Pessoas
                 SqlDataReader resultado;
                 var query = "SELECT p.Id, p.Nome, t.Numero, t.Ddd FROM Pessoa p LEFT JOIN Telefone t ON p.Id = t.IdPessoa ";
 
-                //var query = "SELECT p.Id as IdPessoa, p.Nome as Nome, p.Cpf as Cpf, p.Rg as p.Rg, p.DatadeNascimento as DatadeNascimento, p.Naturalidade as Naturalidade, t.Numero as Numero, t.Ddd as Ddd FROM Pessoa p LEFT JOIN Telefone t ON p.Id = t.IdPessoa ";
-                //var query = @"SELECT p.Id as IdPessoa, p.Rg as Rg, p.Nome as Nome, p.Cpf as Cpf, t.DDD as DDD, p.DatadeNascimento as DatadeNascimento, p.Naturalidade as Naturalidade, t.Numero as Numero FROM Pessoa p LEFT JOIN Telefone t ON p.Id = t.IdPessoa";
+                
                 using (var sql = new SqlConnection(connection))
                 {
                     SqlCommand command = new SqlCommand(query, sql);
@@ -109,15 +112,8 @@ namespace Cadastro_de_Pessoas
                 Console.WriteLine("|============================== Listagem ==============================|");
                 for (int i = 0; i < listaCadastro.Count; i++)
                 {
-                    //Console.WriteLine("________________________________");
-                    Console.WriteLine($"Id:{ listaCadastro[i].Id} - {listaCadastro[i].Nome} - Tel: ({listaCadastro1[i].Ddd})-{listaCadastro1[i].Numero}");
-                    //Console.WriteLine("Nome: " + );
-                    //Console.WriteLine("Ddd: " + );
-                    //Console.WriteLine("Numero: " + );
-                    //Console.WriteLine("________________________________");
-
+                    Console.WriteLine($" Id:{ listaCadastro[i].Id} - {listaCadastro[i].Nome} - Tel: ({listaCadastro1[i].Ddd})-{listaCadastro1[i].Numero}");
                 }
-
             }
             catch (Exception ex)
             {
@@ -157,7 +153,7 @@ namespace Cadastro_de_Pessoas
                     Console.WriteLine("|============================== Listagem ==============================|");
                     for (int i = 0; i < listaCadastro.Count; i++)
                     {
-                        Console.WriteLine($"Id:{ listaCadastro[i].Id} - {listaCadastro[i].Nome} - Tel: ({listaCadastro1[i].Ddd})-{listaCadastro1[i].Numero}");
+                        Console.WriteLine($" Id:{ listaCadastro[i].Id} - {listaCadastro[i].Nome} - Tel: ({listaCadastro1[i].Ddd})-{listaCadastro1[i].Numero}");
                     }
 
                 }   
@@ -170,8 +166,8 @@ namespace Cadastro_de_Pessoas
         public static void QuantidadeTefefonesPorNome()
         {
             SqlDataReader resultado;
-            //string connection = @"Data Source=ITELABD04\SQLEXPRESS;Initial Catalog=Cadastro de Pessoas;Integrated Security=True;";
-            string connection = @"Data Source=DESKTOP-IR1AB95;Initial Catalog=cadastropessoas;Integrated Security=True;";
+            string connection = @"Data Source=ITELABD04\SQLEXPRESS;Initial Catalog=Cadastro de Pessoas;Integrated Security=True;";
+            //string connection = @"Data Source=DESKTOP-IR1AB95;Initial Catalog=cadastropessoas;Integrated Security=True;";
             List<Pessoa> listaCadastro = new List<Pessoa>();
             List<Telefone> listaCadastro1 = new List<Telefone>();
             try
@@ -202,18 +198,19 @@ namespace Cadastro_de_Pessoas
                     
                     for (int i = 0; i < listaCadastro.Count; i++)
                     {
+                        
                         int cont = 0;
                         for (int j = 0; j < listaCadastro.Count; j++)
                         {
-                            if (i == listaCadastro[j].Id)
+                            if (listaCadastro[i].Id == listaCadastro[j].Id)
                             {
                                 cont = cont + 1;
                             }
-                            
                         }
+                        
                         if (cont != 0)
                         {
-                            Console.WriteLine($"{listaCadastro[i].Nome} tem {cont} telefones cadastrados.");
+                            Console.WriteLine($" {listaCadastro[i].Nome} tem {cont} telefones cadastrados.");
                         }
                         
                         //Console.WriteLine(listaCadastro[i].Nome); Testar
@@ -239,3 +236,5 @@ namespace Cadastro_de_Pessoas
         
     }
 }
+//var query = "SELECT p.Id as IdPessoa, p.Nome as Nome, p.Cpf as Cpf, p.Rg as p.Rg, p.DatadeNascimento as DatadeNascimento, p.Naturalidade as Naturalidade, t.Numero as Numero, t.Ddd as Ddd FROM Pessoa p LEFT JOIN Telefone t ON p.Id = t.IdPessoa ";
+//var query = @"SELECT p.Id as IdPessoa, p.Rg as Rg, p.Nome as Nome, p.Cpf as Cpf, t.DDD as DDD, p.DatadeNascimento as DatadeNascimento, p.Naturalidade as Naturalidade, t.Numero as Numero FROM Pessoa p LEFT JOIN Telefone t ON p.Id = t.IdPessoa";
