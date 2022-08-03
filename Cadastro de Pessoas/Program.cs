@@ -11,8 +11,8 @@ namespace Cadastro_de_Pessoas
 
         public static void Main(string[] args)
         {
-            string connection = @"Data Source=ITELABD04\SQLEXPRESS;Initial Catalog=Cadastro de Pessoas;Integrated Security=True;";
-            //string connection = @"Data Source=DESKTOP-IR1AB95;Initial Catalog=cadastropessoas;Integrated Security=True;";
+            //string connection = @"Data Source=ITELABD04\SQLEXPRESS;Initial Catalog=Cadastro de Pessoas;Integrated Security=True;";
+            string connection = @"Data Source=DESKTOP-IR1AB95;Initial Catalog=cadastropessoas;Integrated Security=True;";
             Console.WriteLine("|======================== Cadastro de Pessoas =========================|");
             Menu.MostarMenu();
             Console.Write("Digite o que deseja fazer: ");
@@ -149,7 +149,7 @@ namespace Cadastro_de_Pessoas
                 // Cadastrar Telefone
                 else if (opcao == 5) 
                 {
-                    Menu.Mostarcadastros();
+                    Menu.MostrarTelefones();
 
                     try
                     {
@@ -162,7 +162,7 @@ namespace Cadastro_de_Pessoas
                             SqlCommand command = new SqlCommand(query, sql);
                             command.Connection.Open();
 
-                            Console.WriteLine(" Digite o Id da Pessoa para Cadastro");
+                            Console.Write(" Digite o Id da Pessoa para Cadastro do Telefone: ");
                             int termo = Convert.ToInt32(Console.ReadLine());
 
                             //----
@@ -209,7 +209,7 @@ namespace Cadastro_de_Pessoas
                 // Deletar Telefone
                 else if (opcao == 6)
                 {
-                    Console.WriteLine(" Qual Cadastro deseja DELETAR ??");
+                    Console.WriteLine(" Qual Cadastro deseja DELETAR o Telefone ?");
 
                     Menu.Mostarcadastros();
 
@@ -284,25 +284,27 @@ namespace Cadastro_de_Pessoas
                     opcao = Convert.ToInt32(Console.ReadLine());
 
                 }
+                // Quantidade de Telefones/Nome
                 else if (opcao == 10)
                 {
-                    List<Telefone> listaCadastro1 = new List<Telefone>();
-                    SqlDataReader resultado;
-                    var query = "SELECT t.Id FROM Telefone t WHERE p.Nome = @nome";
+                    Menu.QuantidadeTefefonesPorNome();
+                    //List<Telefone> listaCadastro1 = new List<Telefone>();
+                    //SqlDataReader resultado;
+                    //var query = "SELECT t.Id FROM Telefone t WHERE p.Nome = @nome";
 
-                    using (var sql = new SqlConnection(connection))
-                    {
-                        SqlCommand command = new SqlCommand(query, sql);
-                        command.Connection.Open();
-                        resultado = command.ExecuteReader();
+                    //using (var sql = new SqlConnection(connection))
+                    //{
+                    //    SqlCommand command = new SqlCommand(query, sql);
+                    //    command.Connection.Open();
+                    //    resultado = command.ExecuteReader();
 
-                        while (resultado.Read())
-                        {
-                            listaCadastro1.Add(new Telefone(resultado.GetInt32(resultado.GetOrdinal("Id"))));
-                        }
-                    }
-                    int quantnumeros = listaCadastro1.Count;
-                    Console.WriteLine($"{quantnumeros} - Telefones Cadastrados");
+                    //    while (resultado.Read())
+                    //    {
+                    //        listaCadastro1.Add(new Telefone(resultado.GetInt32(resultado.GetOrdinal("Id"))));
+                    //    }
+                    //}
+                    //int quantnumeros = listaCadastro1.Count;
+                    //Console.WriteLine($"{quantnumeros} - Telefones Cadastrados");
 
                     Menu.MostarMenu();
                     Console.Write(" Digite o que deseja fazer: ");
@@ -322,8 +324,8 @@ namespace Cadastro_de_Pessoas
         }
         static List<Pessoa> EncontrarPessoa(int termo)
         {
-            string connection = @"Data Source=ITELABD04\SQLEXPRESS;Initial Catalog=Cadastro de Pessoas;Integrated Security=True;";
-            //string connection = @"Data Source=DESKTOP-IR1AB95;Initial Catalog=cadastropessoas;Integrated Security=True;";
+            //string connection = @"Data Source=ITELABD04\SQLEXPRESS;Initial Catalog=Cadastro de Pessoas;Integrated Security=True;";
+            string connection = @"Data Source=DESKTOP-IR1AB95;Initial Catalog=cadastropessoas;Integrated Security=True;";
             List<Pessoa> pessoas2 = new List<Pessoa>();
             SqlDataReader resultado;
             try

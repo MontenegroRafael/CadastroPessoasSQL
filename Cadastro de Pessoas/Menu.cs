@@ -27,7 +27,8 @@ namespace Cadastro_de_Pessoas
         }
         public static void Mostarcadastros()
         {
-            string connection = @"Data Source=ITELABD04\SQLEXPRESS;Initial Catalog=Cadastro de Pessoas;Integrated Security=True;";
+            //string connection = @"Data Source=ITELABD04\SQLEXPRESS;Initial Catalog=Cadastro de Pessoas;Integrated Security=True;";
+            string connection = @"Data Source=DESKTOP-IR1AB95;Initial Catalog=cadastropessoas;Integrated Security=True;";
             List<Pessoa> listaCadastro = new List<Pessoa>();
             List<Telefone> listaCadastro1 = new List<Telefone>();
             try
@@ -79,7 +80,8 @@ namespace Cadastro_de_Pessoas
         }
         public static void MostrarTelefones()
         {
-            string connection = @"Data Source=ITELABD04\SQLEXPRESS;Initial Catalog=Cadastro de Pessoas;Integrated Security=True;";
+            //string connection = @"Data Source=ITELABD04\SQLEXPRESS;Initial Catalog=Cadastro de Pessoas;Integrated Security=True;";
+            string connection = @"Data Source=DESKTOP-IR1AB95;Initial Catalog=cadastropessoas;Integrated Security=True;";
             List<Pessoa> listaCadastro = new List<Pessoa>();
             List<Telefone> listaCadastro1 = new List<Telefone>();
             try
@@ -122,11 +124,11 @@ namespace Cadastro_de_Pessoas
                 Console.WriteLine("Erro: " + ex.Message);
             }
         }
-
         public static void MostrarNumerosPorNome()
         {
             SqlDataReader resultado;
-            string connection = @"Data Source=ITELABD04\SQLEXPRESS;Initial Catalog=Cadastro de Pessoas;Integrated Security=True;";
+            //string connection = @"Data Source=ITELABD04\SQLEXPRESS;Initial Catalog=Cadastro de Pessoas;Integrated Security=True;";
+            string connection = @"Data Source=DESKTOP-IR1AB95;Initial Catalog=cadastropessoas;Integrated Security=True;";
             List<Pessoa> listaCadastro = new List<Pessoa>();
             List<Telefone> listaCadastro1 = new List<Telefone>();
             try
@@ -157,7 +159,67 @@ namespace Cadastro_de_Pessoas
                     {
                         Console.WriteLine($"Id:{ listaCadastro[i].Id} - {listaCadastro[i].Nome} - Tel: ({listaCadastro1[i].Ddd})-{listaCadastro1[i].Numero}");
                     }
+
                 }   
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine("Erro: " + ex.Message);
+            }
+        }
+        public static void QuantidadeTefefonesPorNome()
+        {
+            SqlDataReader resultado;
+            //string connection = @"Data Source=ITELABD04\SQLEXPRESS;Initial Catalog=Cadastro de Pessoas;Integrated Security=True;";
+            string connection = @"Data Source=DESKTOP-IR1AB95;Initial Catalog=cadastropessoas;Integrated Security=True;";
+            List<Pessoa> listaCadastro = new List<Pessoa>();
+            List<Telefone> listaCadastro1 = new List<Telefone>();
+            try
+            {
+                var query = "SELECT * FROM Pessoa p LEFT JOIN Telefone t ON p.Id = t.IdPessoa";
+                using (var sql = new SqlConnection(connection))
+                {
+                    SqlCommand command = new SqlCommand(query, sql);
+                    command.Connection.Open();
+
+                    Console.WriteLine("---------------------------");
+
+                    resultado = command.ExecuteReader();
+
+                    while (resultado.Read())
+                    {
+                        listaCadastro.Add(new Pessoa(resultado.GetInt32(resultado.GetOrdinal("Id")),
+                                                     resultado.SafeGetString(resultado.GetOrdinal("Nome"))));
+
+                        listaCadastro1.Add(new Telefone(resultado.SafeGetString(resultado.GetOrdinal("Ddd")), // Metodo Safe uzado para verificar se o valor e nulo
+                                                        (resultado.SafeGetString(resultado.GetOrdinal("Numero")))));
+                    }
+                    Console.WriteLine("|============================== Listagem ==============================|");
+                    for (int i = 0; i < listaCadastro.Count; i++)
+                    {
+                        Console.WriteLine($"Id:{ listaCadastro[i].Id} - {listaCadastro[i].Nome} - Tel: ({listaCadastro1[i].Ddd})-{listaCadastro1[i].Numero}");
+                    }
+                    
+                    for (int i = 0; i < listaCadastro.Count; i++)
+                    {
+                        int cont = 0;
+                        for (int j = 0; j < listaCadastro.Count; j++)
+                        {
+                            if (i == listaCadastro[j].Id)
+                            {
+                                cont = cont + 1;
+                            }
+                            
+                        }
+                        if (cont != 0)
+                        {
+                            Console.WriteLine($"{listaCadastro[i].Nome} tem {cont} telefones cadastrados.");
+                        }
+                        
+                        //Console.WriteLine(listaCadastro[i].Nome);
+                    }
+                    
+                }
             }
             catch (Exception ex)
             {
