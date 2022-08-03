@@ -198,7 +198,6 @@ namespace Cadastro_de_Pessoas
                     
                     for (int i = 0; i < listaCadastro.Count; i++)
                     {
-                        
                         int cont = 0;
                         for (int j = 0; j < listaCadastro.Count; j++)
                         {
@@ -215,8 +214,7 @@ namespace Cadastro_de_Pessoas
                         
                         //Console.WriteLine(listaCadastro[i].Nome); Testar
 
-                    }
-                    
+                    }  
                 }
             }
             catch (Exception ex)
